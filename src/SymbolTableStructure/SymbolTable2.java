@@ -35,13 +35,54 @@ public class SymbolTable2 {
         }
     }
 
+//    @Override
+//    public String toString() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("Symbol Table:\n");
+//        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+//        stringBuilder.append(String.format("| %-65s | %-65s \n", "Variable Name", "Value"));
+//        stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+//
+//        for (Map.Entry<String, Object> entry : symbolTable.entrySet()) {
+//            String value = String.valueOf(entry.getValue());
+//
+//            String[] valueLines = value.split("\\n");
+//            int maxValueLines = Math.max(valueLines.length, 1);
+//
+//            String[] variableNameLines = entry.getKey().split("\\n");
+//            int maxVariableNameLines = Math.max(variableNameLines.length, 1);
+//
+//            int maxLines = Math.max(maxValueLines, maxVariableNameLines);
+//
+//            for (int i = 0; i < maxLines; i++) {
+//                String variableName = (i < variableNameLines.length) ? variableNameLines[i] : "";
+//                String valueLine = (i < valueLines.length) ? valueLines[i] : "";
+//
+//                stringBuilder.append(String.format("| %-65s | %-65s \n", variableName, valueLine));
+//            }
+//
+//            stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+//        }
+//
+//        return stringBuilder.toString();
+//    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Symbol Table:\n");
         stringBuilder.append("*").append("*".repeat(180)).append("*\n");
-        stringBuilder.append(String.format("| %-65s | %-65s \n", "Variable Name", "Value"));
+        stringBuilder.append(String.format("| %-10s | %-65s | %-65s \n", "ID", "Variable Name", "Value"));
         stringBuilder.append("*").append("*".repeat(180)).append("*\n");
+
+        Map<String, Integer> keyIdMap = new HashMap<>(); // To store IDs for each unique key
+
+        for (Map.Entry<String, Object> entry : symbolTable.entrySet()) {
+            String key = entry.getKey();
+            if (!keyIdMap.containsKey(key)) {
+                keyIdMap.put(key, keyIdMap.size() + 1); // Increment ID for each unique key
+            }
+        }
 
         for (Map.Entry<String, Object> entry : symbolTable.entrySet()) {
             String value = String.valueOf(entry.getValue());
@@ -54,11 +95,14 @@ public class SymbolTable2 {
 
             int maxLines = Math.max(maxValueLines, maxVariableNameLines);
 
-            for (int i = 0; i < maxLines; i++) {
-                String variableName = (i < variableNameLines.length) ? variableNameLines[i] : "";
-                String valueLine = (i < valueLines.length) ? valueLines[i] : "";
+            int keyId = keyIdMap.get(entry.getKey()); // Retrieve ID for the key
 
-                stringBuilder.append(String.format("| %-65s | %-65s \n", variableName, valueLine));
+            // Print the ID only once for each key
+            stringBuilder.append(String.format("| %-10s | %-65s | %-65s \n", keyId, variableNameLines[0], valueLines[0]));
+
+            // Print empty lines for remaining lines if any
+            for (int i = 1; i < maxLines; i++) {
+                stringBuilder.append(String.format("| %-10s | %-65s | %-65s \n", "", (i < variableNameLines.length) ? variableNameLines[i] : "", (i < valueLines.length) ? valueLines[i] : ""));
             }
 
             stringBuilder.append("*").append("*".repeat(180)).append("*\n");
@@ -66,6 +110,7 @@ public class SymbolTable2 {
 
         return stringBuilder.toString();
     }
+
 
 
 }
