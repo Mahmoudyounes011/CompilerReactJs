@@ -20,7 +20,7 @@ statement : block                               # BlockSt
           | expression SEMI_COLON?              # ExpressionSt
           ;
 
-         // test : STRING statement*;
+// test : STRING statement*;
 
 // block
 block : OPEN_BRACE statement* CLOSE_BRACE SEMI_COLON?

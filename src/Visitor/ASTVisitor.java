@@ -38,9 +38,10 @@ public class ASTVisitor extends ReactjsParserBaseVisitor {
         for (ReactjsParser.StatementContext stat : ctx.statement()) {
             st.add((Statement) visit(stat));
         }
+
         p.setStatements(st);
 
-        //System.out.println(symbolTable);
+        // System.out.println(symbolTable);
 
         System.out.println();
         System.out.println("Program: \n");
